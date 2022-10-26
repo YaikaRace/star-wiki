@@ -2,7 +2,11 @@
   <button
     class="text-left p-4 bg-dblue rounded-md hover:bg-dblue/30 duration-300"
   >
-    <img :src="image" alt="thumbnail" class="rounded-sm" />
+    <img
+      :src="image"
+      alt="thumbnail"
+      class="rounded-sm w-[332px] h-[225px] object-cover"
+    />
     <h2 class="text-xl text-white mt-6">{{ name }}</h2>
     <p class="text-white/50">{{ description }}</p>
   </button>
