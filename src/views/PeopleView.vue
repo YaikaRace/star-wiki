@@ -7,6 +7,9 @@
         :description="people.result.description"
         :key="people.result.uid"
         :image="getImage(people.result.uid)"
+        :url="people.result.properties.url"
+        :id="people.result.uid"
+        ref="buttons"
       ></ButtonComp>
     </div>
     <vue-awesome-paginate :total-items="82" :on-click="changePage" />
@@ -53,36 +56,47 @@ export default {
       img: [],
     };
   },
-  beforeCreate() {
-    axios
-      .get(API + `people?page=${page}&limit=10`)
-      .then((response) => {
-        if (response.status == 200) {
-          this.data = response.data;
-          console.log(this.data);
-        }
-      })
-      .then(() => {
-        axios.get(IMG_API).then((response) => {
-          this.img = response.data;
-          console.log(response.data);
-        });
-        this.data.results.forEach((element) => {
-          axios.get(element.url).then((resp) => {
-            this.allPeople.push(resp.data);
-            console.log(resp);
-          });
-        });
-      });
+  mounted() {
+    this.getData();
   },
   methods: {
     getImage(id) {
       let obj = this.img.find((o) => o.id == id);
       return obj.image;
     },
-    changePage(newPage){
-        page = newPage
-      }
+    changePage(newPage) {
+      page = newPage;
+      this.allPeople = [];
+      this.getData();
+    },
+    getData() {
+      axios
+        .get(API + `people?page=${page}&limit=10`)
+        .then((response) => {
+          if (response.status == 200) {
+            this.data = response.data;
+          }
+        })
+        .then(() => {
+          axios.get(IMG_API).then((response) => {
+            this.img = response.data;
+          });
+          this.data.results.forEach((element) => {
+            axios
+              .get(element.url)
+              .then((resp) => {
+                this.allPeople.push(resp.data);
+              })
+              .then(() => {
+                let sort = this.allPeople.slice(0);
+                sort.sort(function (a, b) {
+                  return a.result.uid - b.result.uid;
+                });
+                this.allPeople = sort;
+              });
+          });
+        });
+    },
   },
 };
 </script>

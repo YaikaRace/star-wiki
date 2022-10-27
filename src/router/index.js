@@ -5,7 +5,19 @@ const routes = [
   {
     path: "/",
     name: "home",
+    redirect: "/people",
+  },
+  {
+    path: "/people",
+    name: "people",
     component: PeopleView,
+    children: [
+      {
+        path: ":id",
+        name: "peoples",
+        component: PeopleView,
+      },
+    ],
   },
 ];
 

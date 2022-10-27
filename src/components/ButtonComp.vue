@@ -1,5 +1,6 @@
 <template>
-  <button
+  <router-link
+    :to="`people/${id}`"
     class="text-left p-4 bg-dblue rounded-md hover:bg-dblue/30 duration-300"
   >
     <img
@@ -9,7 +10,7 @@
     />
     <h2 class="text-xl text-white mt-6">{{ name }}</h2>
     <p class="text-white/50">{{ description }}</p>
-  </button>
+  </router-link>
 </template>
 
 <script>
@@ -27,6 +28,13 @@ export default {
     image: {
       type: String,
       default: "https://placekitten.com/332/225",
+    },
+    url: {
+      type: String,
+    },
+    id: {
+      type: String,
+      default: "1",
     },
   },
 };
