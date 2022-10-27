@@ -1,6 +1,6 @@
 <template>
-  <router-link
-    :to="`people/${id}`"
+  <button
+    @click.prevent="$emit('click', this.id, this.url, this.image)"
     class="text-left p-4 bg-dblue rounded-md hover:bg-dblue/30 duration-300"
   >
     <img
@@ -10,7 +10,7 @@
     />
     <h2 class="text-xl text-white mt-6">{{ name }}</h2>
     <p class="text-white/50">{{ description }}</p>
-  </router-link>
+  </button>
 </template>
 
 <script>

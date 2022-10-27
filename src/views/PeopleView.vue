@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center">
-    <div class="p-8 grid grid-cols-4 gap-4">
+    <div class="p-8 grid grid-cols-5 gap-4">
       <ButtonComp
         v-for="people in allPeople"
         :name="people.result.properties.name"
@@ -10,6 +10,7 @@
         :url="people.result.properties.url"
         :id="people.result.uid"
         ref="buttons"
+        @click="(id, url, img) => changeView(id, url, img)"
       ></ButtonComp>
     </div>
     <vue-awesome-paginate :total-items="82" :on-click="changePage" />
@@ -38,6 +39,7 @@
 // @ is an alias to /src
 import axios from "axios";
 import ButtonComp from "@/components/ButtonComp.vue";
+import router from "@/router";
 
 const API = "https://www.swapi.tech/api/";
 const IMG_API =
@@ -96,6 +98,9 @@ export default {
               });
           });
         });
+    },
+    changeView(id, url, image) {
+      router.push(`/persons/$(id)`);
     },
   },
 };
